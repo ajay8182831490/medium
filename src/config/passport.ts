@@ -27,7 +27,7 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
   clientID: process.env.clientid!,
   clientSecret: process.env.clientsecret!,
-  callbackURL: 'https://medium-c903.onrender.com/auth/google/callback'
+  callbackURL: 'https://medium-f2ly.onrender.com/auth/google/callback'
 }, async (token: string, tokenSecret: string, profile: any, done: any) => {
   try {
 
