@@ -3,7 +3,7 @@ const session = require('express-session');
 import passport from './config/passport';
 import authRoutes from './routes/authRoutes';
 import blogcontroller from './blog/blogcontroller/blogcontroller'
-const port = 3000
+const port = process.env.port || 3000
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));

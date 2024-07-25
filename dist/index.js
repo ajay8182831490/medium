@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport_1 = __importDefault(require("./config/passport"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const blogcontroller_1 = __importDefault(require("./blog/blogcontroller/blogcontroller"));
+const port = process.env.port || 3000;
 const app = (0, express_1.default)();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
@@ -20,6 +21,6 @@ app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 app.use(authRoutes_1.default);
 app.use(blogcontroller_1.default);
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log("server is running on port no 3000");
 });
