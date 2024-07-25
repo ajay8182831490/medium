@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const attachUserId = (req, res, next) => {
     if (req.isAuthenticated() && req.user) {
-        console.log(req.user);
         req.userId = req.user.id;
         return next();
     }

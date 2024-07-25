@@ -27,11 +27,11 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
   clientID: process.env.clientid!,
   clientSecret: process.env.clientsecret!,
-  callbackURL: 'http://localhost:3000/auth/google/callback'
+  callbackURL: 'https://medium-c903.onrender.com/auth/google/callback'
 }, async (token: string, tokenSecret: string, profile: any, done: any) => {
   try {
 
-    console.log(profile);
+
     let user = await prisma.user.findUnique(
       {
         where:

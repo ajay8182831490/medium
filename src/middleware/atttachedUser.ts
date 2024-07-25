@@ -7,7 +7,7 @@ interface AuthenticatedRequest extends Request {
 const attachUserId = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     if (req.isAuthenticated() && req.user) {
 
-        console.log(req.user)
+
         req.userId = (req.user as any).id;
         return next();
     }
