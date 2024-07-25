@@ -8,7 +8,7 @@ const passport_1 = __importDefault(require("../config/passport"));
 const authController_1 = require("../controller/authController");
 const router = express_1.default.Router();
 router.get('/login', (req, res) => {
-    res.send('<form action="/login" method="post"><input type="text" name="username" /><input type="password" name="password" /><button type="submit">Login</button></form>');
+    res.send('<form action="/login" method="post"><input type="text" name="name" /><input type="email" name="email" /><input type="password" name="password" /><button type="submit">Login</button></form>');
 });
 router.post('/login', passport_1.default.authenticate('local', {
     successRedirect: '/',
@@ -19,4 +19,5 @@ router.get('/auth/google/callback', passport_1.default.authenticate('google', { 
     res.redirect('/');
 });
 router.post('/register', authController_1.registerUser);
+router.get('/logout', authController_1.logoutUser);
 exports.default = router;

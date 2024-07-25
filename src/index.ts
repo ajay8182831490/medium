@@ -1,7 +1,8 @@
 import express from 'express';
-const session =require( 'express-session');
+const session = require('express-session');
 import passport from './config/passport';
 import authRoutes from './routes/authRoutes';
+import blogcontroller from './blog/blogcontroller/blogcontroller'
 
 const app = express();
 
@@ -12,13 +13,15 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(authRoutes);
-
-app.listen(3000,()=>{
-    console.log("server is running on port no 3000")
+app.use(blogcontroller)
+app.listen(3000, () => {
+  console.log("server is running on port no 3000")
 })
 
 

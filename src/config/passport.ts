@@ -2,12 +2,12 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { PrismaClient } from '@prisma/client';
-const bcrypt =require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
 
 passport.use(new LocalStrategy(
-  async (username: string, password: string, done:any) => {
+  async (username: string, password: string, done: any) => {
     try {
       const user = await prisma.user.findUnique({ where: { email: username } });
       if (!user) {
@@ -28,17 +28,22 @@ passport.use(new GoogleStrategy({
   clientID: process.env.clientid!,
   clientSecret: process.env.clientsecret!,
   callbackURL: 'http://localhost:3000/auth/google/callback'
-}, async (token: string, tokenSecret: string, profile: any, done:any) => {
+}, async (token: string, tokenSecret: string, profile: any, done: any) => {
   try {
+
+    console.log(profile);
     let user = await prisma.user.findUnique(
-        { 
-        where: 
-        { googleId: profile.id } });
+      {
+        where:
+          { googleId: profile.id }
+      });
     if (!user) {
       user = await prisma.user.create({
         data: {
           googleId: profile.id,
-         
+          name: profile.displayName,
+
+
         }
       });
     }
@@ -52,7 +57,7 @@ passport.serializeUser((user: any, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id: number, done:any) => {
+passport.deserializeUser(async (id: number, done: any) => {
   try {
     const user = await prisma.user.findUnique({ where: { id } });
     done(null, user);

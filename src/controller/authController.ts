@@ -5,7 +5,7 @@ import { hashPassword } from '../utils/hashPassword';
 const prisma = new PrismaClient();
 
 export const registerUser = async (req: Request, res: Response) => {
-  const {  email, password } = req.body;
+  const { email, password, name } = req.body;
   try {
     const existingUser = await prisma.user.findUnique({
       where: { email: email }
@@ -19,9 +19,10 @@ export const registerUser = async (req: Request, res: Response) => {
 
     await prisma.user.create({
       data: {
-       
+
         email: email,
-        password: hashedPassword
+        password: hashedPassword,
+        name: name
       }
     });
 
@@ -30,4 +31,10 @@ export const registerUser = async (req: Request, res: Response) => {
     console.error(err);
     res.status(500).send('Error registering user');
   }
+};
+export const logoutUser = (req: Request, res: Response) => {
+  req.logout(err => {
+    if (err) return res.status(500).send('Error logging out');
+    res.send('User logged out successfully');
+  });
 };

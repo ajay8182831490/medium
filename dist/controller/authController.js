@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerUser = void 0;
+exports.logoutUser = exports.registerUser = void 0;
 const client_1 = require("@prisma/client");
 const hashPassword_1 = require("../utils/hashPassword");
 const prisma = new client_1.PrismaClient();
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
     try {
         const existingUser = yield prisma.user.findUnique({
             where: { email: email }
@@ -26,7 +26,8 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         yield prisma.user.create({
             data: {
                 email: email,
-                password: hashedPassword
+                password: hashedPassword,
+                name: name
             }
         });
         res.send('User registered successfully');
@@ -37,3 +38,11 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.registerUser = registerUser;
+const logoutUser = (req, res) => {
+    req.logout(err => {
+        if (err)
+            return res.status(500).send('Error logging out');
+        res.send('User logged out successfully');
+    });
+};
+exports.logoutUser = logoutUser;

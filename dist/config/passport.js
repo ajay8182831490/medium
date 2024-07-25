@@ -40,6 +40,7 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
     callbackURL: 'http://localhost:3000/auth/google/callback'
 }, (token, tokenSecret, profile, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(profile);
         let user = yield prisma.user.findUnique({
             where: { googleId: profile.id }
         });
@@ -47,6 +48,7 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
             user = yield prisma.user.create({
                 data: {
                     googleId: profile.id,
+                    name: profile.displayName,
                 }
             });
         }
